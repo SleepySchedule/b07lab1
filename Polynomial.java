@@ -71,21 +71,7 @@ public class Polynomial {
 				c[y] += x;
 			}
 		}
-
-		// remove zero coefficients and corresponding exponents
-		int zero_count = countZero(c);
-		double[] c2 = new double[c.length - zero_count];
-		int[] e2 = new int[c.length - zero_count];
-		int cur = 0;
-		for (int i = 0; i < c.length; i++) {
-			if (c[i] != 0) {
-				c2[cur] = c[i];
-				e2[cur] = i;
-				cur++;
-			}
-		}
-		Polynomial new_p = new Polynomial(c2, e2);
-		return new_p;
+		return removeZeroPolynomial(c);
 	}
 	public double evaluate(double x) {
 		double res = 0;
@@ -113,21 +99,23 @@ public class Polynomial {
 				c[a + b] += x * y;
 			}
 		}
-
-		// remove zero coefficients and corresponding exponents
+		return removeZeroPolynomial(c);
+	}
+	public Polynomial removeZeroPolynomial(double[] c) {
+		// given coefficients where c[i] is coefficient corresponding to exponent i
+		// return Polynomial with removed zero coefficients
 		int zero_count = countZero(c);
-		double[] c2 = new double[c.length - zero_count];
-		int[] e2 = new int[c.length - zero_count];
+		double[] coeff = new double[c.length - zero_count];
+		int[] expo = new int[c.length - zero_count];
 		int cur = 0;
 		for (int i = 0; i < c.length; i++) {
 			if (c[i] != 0) {
-				c2[cur] = c[i];
-				e2[cur] = i;
+				coeff[cur] = c[i];
+				expo[cur] = i;
 				cur++;
 			}
 		}
-		Polynomial new_p = new Polynomial(c2, e2);
-		return new_p;
+		return new Polynomial(coeff, expo);
 	}
 	public static int countZero(double[] c) {
 		// return the number of zero coefficients in c
